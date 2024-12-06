@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Screen Video with Navigation</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #welcome-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            text-align: center;
+        }
+
+        #welcome-screen button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            background-color: white; /* Change background to white */
+            color: black; /* Change text color to black */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #welcome-screen button:hover {
+            background-color: #f0f0f0; /* Light gray background when hovered */
+        }
+
+        #main-content {
+            display: block;
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-text {
+            position: absolute;
+            top: 35%; /* Adjusted to be higher on the page */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%; /* Make the image bigger */
+            max-width: 600px; /* Set max size if necessary */
+            height: auto;
+        }
+
+        .copy-text {
+            position: absolute;
+            top: 80%; /* Moved closer to social links */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            max-width: 90%;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .social-links {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2em;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .social-links a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .nav-button-left {
+            left: 10%;
+        }
+
+        .nav-button-right {
+            right: 10%;
+        }
+
+        @media (max-width: 768px) {
+            .image-text {
+                width: 90%; /* Adjust size for smaller screens */
+            }
+            .copy-text {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="welcome-screen">
+        <button onclick="enterSite()">Click Here</button>
+    </div>
+
+    <div id="main-content">
+        <video id="video1" autoplay muted loop>
+            <source src="videos/video1.mp4" type="video/mp4">
+            <source src="videos/video1.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+        <audio id="audio1" loop>
+            <source src="music/music1.mp3" type="audio/mpeg">
+            <source src="music/music1.ogg" type="audio/ogg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <video id="video2" autoplay muted loop style="display:none;">
+            <source src="videos/video2.mp4" type="video/mp4">
+            <source src="videos/video2.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+        <audio id="audio2" loop style="display:none;">
+            <source src="music/music2.mp3" type="audio/mpeg">
+            <source src="music/music2.ogg" type="audio/ogg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <video id="video3" autoplay muted loop style="display:none;">
+            <source src="videos/video3.mp4" type="video/mp4">
+            <source src="videos/video3.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+        <audio id="audio3" loop style="display:none;">
+            <source src="music/music3.mp3" type="audio/mpeg">
+            <source src="music/music3.ogg" type="audio/ogg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <!-- Left Arrow Button -->
+        <button class="nav-button nav-button-left" onclick="changeVideo(1)">←</button>
+
+        <!-- Right Arrow Button -->
+        <button class="nav-button nav-button-right" onclick="changeVideo(2)">→</button>
+
+        <!-- Image-Text (image-text.png) -->
+        <img src="image-text.png" alt="Image Text" class="image-text">
+
+        <!-- Copy Text -->
+        <div class="copy-text" onclick="copyText()">BDAw22M9Sxvi1NM71zLEsv5r4qgnkDVwNNNe6quqpump</div>
+
+        <!-- Social Links -->
+        <div class="social-links">
+            <a href="https://x.com/iykykPump" target="_blank">TWITTER</a> -
+            <a href="https://t.me/iykyksolanaa" target="_blank">TELEGRAM</a> -
+            <a href="https://dexscreener.com" target="_blank">DEXSCREENER</a>
+        </div>
+    </div>
+
+    <script>
+        function enterSite() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+
+            // Delay audio play to ensure it's triggered by user interaction
+            const audio = document.getElementById('audio1');
+            audio.muted = false; // Ensure the audio is not muted
+            audio.play().then(() => {
+                console.log('Audio playing...');
+            }).catch(error => {
+                console.warn('Audio play failed:', error);
+            });
+        }
+
+        function changeVideo(direction) {
+            let currentVideo = document.querySelector('video:not([style*="display: none"])');
+            let currentAudio = document.querySelector('audio:not([style*="display: none"])');
+
+            let nextVideoId = currentVideo.id === 'video1' ? 'video2' : (currentVideo.id === 'video2' ? 'video3' : 'video1');
+            let nextAudioId = nextVideoId.replace('video', 'audio');
+
+            currentVideo.style.display = 'none';
+            currentAudio.style.display = 'none';
+
+            document.getElementById(nextVideoId).style.display = 'block';
+            document.getElementById(nextAudioId).style.display = 'block';
+
+            // Play the audio after the video change
+            playAudio(nextAudioId);
+        }
+
+        function playAudio(audioId) {
+            const audio = document.getElementById(audioId);
+            audio.muted = false; // Ensure audio is not muted
+            audio.play().catch(error => {
+                console.warn('Audio failed to play:', error);
+            });
+        }
+
+        function copyText() {
+            const textToCopy = document.querySelector('.copy-text').textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Text copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
